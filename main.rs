@@ -18,10 +18,9 @@ async fn find_lobby_id(mut mp_id: u32, acronym: &String) -> Result<u32> {
 }
 
 async fn lobby_is_valid(url: String, acronym: &String) -> Result<bool> {
-    // let resp = reqwest::get(url).await?.text().await?;
     if let Ok(resp) = reqwest::get(url).await?.json::<MatchResponse>().await {
-        // println!("{resp:#?}");
         let name = resp.match_.name;
+        println!("{name}, {}", resp.match_.match_id);
         return Ok(name.to_lowercase().contains(acronym));
     } else {
         return Ok(false);
